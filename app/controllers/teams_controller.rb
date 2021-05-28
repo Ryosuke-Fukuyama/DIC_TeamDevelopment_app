@@ -1,6 +1,6 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_team, only: %i[show edit update destroy]
+  before_action :set_team, only: %i[show edit update destroy owner_chenge]
 
   def index
     @teams = Team.all
@@ -45,6 +45,13 @@ class TeamsController < ApplicationController
 
   def dashboard
     @team = current_user.keep_team_id ? Team.find(current_user.keep_team_id) : current_user.teams.first
+  end
+
+  def owner_chenge
+    @user =User.find(params[:assign_user_id])
+    @team.update(owner_id: @user.id)
+    TeamMailer.owner_mail(@team, @user).deliver
+    redirect_to teams_url
   end
 
   private
