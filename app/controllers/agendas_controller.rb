@@ -15,10 +15,17 @@ class AgendasController < ApplicationController
     @agenda.team = Team.friendly.find(params[:team_id])
     current_user.keep_team_id = @agenda.team.id
     if current_user.save && @agenda.save
-      redirect_to dashboard_url, notice: I18n.t('views.messages.create_agenda') 
+      redirect_to dashboard_url, notice: I18n.t('views.messages.create_agenda')
     else
       render :new
     end
+
+    def destroy
+      @agenda.destroy if
+      TeamMailer.agenda_del_mail(@team).deliver
+      redirect_to agendas_url
+    end
+
   end
 
   private
