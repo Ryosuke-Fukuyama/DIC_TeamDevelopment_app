@@ -5,9 +5,8 @@ class TeamMailer < ApplicationMailer
 
 
 
-  def agenda_del_mail(team, users)
-    @team = team
-    @users = users
-    mail to: "ryosukemakaritoru425@gmail.com", subject: "アジェンダが削除されました！"
+  def agenda_del_mail(users)
+    users_email = users.pluck(:email)
+    mail to: users_email, subject: "アジェンダが削除されました！"
   end
 end

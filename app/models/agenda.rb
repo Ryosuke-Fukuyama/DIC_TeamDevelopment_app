@@ -3,12 +3,12 @@ class Agenda < ApplicationRecord
   belongs_to :user
   has_many :articles, dependent: :destroy
 
-  before_destroy :agenda_del
+  # before_destroy :agenda_del
 
-  private
+  # private
 
-  def agenda_del
-    user = User.find(id)
-    throw(:abort) unless user == owner || current_user
-  end
+  # def agenda_del
+  #   user = User.find(id)
+  #   throw(:abort) unless user == @team.owner || user.id == @agenda.user.id
+  # end
 end
