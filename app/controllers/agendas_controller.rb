@@ -21,8 +21,10 @@ class AgendasController < ApplicationController
     end
 
     def destroy
-      @agenda.destroy if
-      TeamMailer.agenda_del_mail(@team).deliver
+      if current_user == owner || user
+        @agenda.destroy
+        TeamMailer.agenda_del_mail(@team).deliver
+      end
       redirect_to agendas_url
     end
 
